@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe</title>
+  {% comment %} <title>{% block title %}{% endblock %}</title> {% endcomment %}
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="d-flex justify-content-center py-3">
+            <span class="fs-4">Recipes</span>
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About</a></li>
+          </ul>
+        </header>
+        <div class="continer-fluid">
+            {% block contents %}
+      {% endblock %}
+        </div>
+        
+      </div>
+</body>
+</html>
+

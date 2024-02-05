@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contents %}
+<div class="card shadow-lg mt-5">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2>Update Recipe</h2>
+        <br/>
+        <div class="form-group mt-2">
+          <label for="exampleInputEmail1">Recipe Name</label>
+          <input name="recipe_name" type="text" value="{{recipe.recipe_name}}" class="form-control" id="recipeInput" aria-describedby="emailHelp" placeholder="Enter email">
+          
+        </div>
+        <div class="form-group mt-2">
+          <label for="recipeDesc">Recipe Description</label>
+          <textarea name="recipe_description"type="text" class="form-control" id="recipeDesc" placeholder="Password">{{recipe.recipe_description}}</textarea>
+        </div>
+       
+     
+            <div class="form-group mt-2">
+              <label for="exampleFormControlFile1">Recipe Image</label>
+              <img src="/media/{{recipe.recipe_image}}" height="250" width="250">
+              <input type="file" name="recipe_image" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+        
+        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+      </form>
+</div>
+
+
+{% endblock %}
