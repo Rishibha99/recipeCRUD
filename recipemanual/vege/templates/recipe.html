@@ -2,6 +2,7 @@
 {% load static %}
 {% block contents %}
 <div class="card shadow-lg mt-5">
+  {{request.user}} {{request.user.first_name}}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <h2>Add Recipe</h2>

@@ -3,8 +3,11 @@ from .models import Recipe
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='login')
 def recipe(request):
     if request.method=='POST':
         data=request.POST
@@ -22,12 +25,14 @@ def recipe(request):
     context={'recipes':recipe_list}
     return render(request, 'recipe.html',context)
 
+@login_required(login_url='login')
 def delete_recipe(request,id):
     print('id',id)
     querset=Recipe.objects.get(id=id)
     querset.delete()
     return redirect('/recipe/')
 
+@login_required(login_url='login')
 def update_recipe(request,id):
     queryset=Recipe.objects.get(id=id)
     if request.method=='POST':
@@ -62,11 +67,29 @@ def register(request):
         return redirect('/register/')
     return render(request,'register.html') 
 
-def login(request):
+def login_page(request):
     if request.method=='POST':
-        username=request.username
-        password=request.password
-
-        messages.success(request,'Login Successful!')
-        return render('recipe.html')
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        if not User.objects.filter(username=username).exists():
+            messages.error(request,'Invalid username')
+            print('user exists')
+            return render(request,'login.html')
+          
+        user=authenticate(username=username, password=password)
+          
+        if user is None:
+            print('user is none')
+            messages.error(request,'Invalid password')
+            return render(request,'login.html')
+        else:
+            print('user')
+            messages.success(request,'Login Successful!')
+            login(request,user)
+            return render(request,'recipe.html')
     return render(request, 'login.html')
+
+@login_required(login_url='login')
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')

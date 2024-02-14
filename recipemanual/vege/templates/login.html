@@ -3,6 +3,13 @@
 {% block contents %}
 <div class="container-fluid card shadow-lg">
     <h2>Login</h2>
+    {%if messages%}
+    <div class="alert alert-primary" role="alert">
+        {% for message in messages %}
+       {{ message }}
+        {% endfor %}
+      </div>
+      {%endif%}
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
