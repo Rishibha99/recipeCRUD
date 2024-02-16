@@ -49,10 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'vege.apps.VegeConfig',
+    # 'vege.apps.VegeConfig',
     'bootstrap5',
+    'studentmngmt.apps.StudentmngmtConfig'
+    
     
 ]
+AUTH_USER_MODEL='studentmngmt.CustomUser'
 
 
 MIDDLEWARE = [

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contents %}
+<div class="container-fluid card shadow-lg">
+    <h2>Registration</h2>
+    {%if messages%}
+    <div class="alert alert-primary" role="alert">
+        {% for message in messages %}
+       {{ message }}
+        {% endfor %}
+      </div>
+      {%endif%}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="exampleInputEmail1">First Name</label>
+          <input type="text" class="form-control" name="firstname" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Last Name</label>
+            <input type="text" class="form-control"  name="lastname"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">User Name</label>
+            <input type="text" class="form-control" name="username"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            {% comment %} <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> {% endcomment %}
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Phone number</label>
+            <input type="text" class="form-control"  name="phone"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+              </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" name="email"  id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <label for="user_type">Choose User Type:</label>
+            <select name="user_type" id="user_type">
+            <option value="0">Teacher</option>
+            <option value="1">Student</option>
+            </select>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <input type="file" id="myFile" name="filename" accept="image/*" >
+        
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <span>Already Have an account?<a href='/login/'>Login</a></span>
+      </form>
+</div>
+<br/>
+<br/>
+
+<h2>Users List</h2>
+<div class="container-fluid card shadow-lg">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">LastName</th>
+            <th scope="col">UserName</th>
+            <th scope="col">profile</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+           
+            {% for user in registered_users%}
+          
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}
+                <img src="/media/{{user.user_profile_image}}" height="300" width="300">
+            </td>
+            <td>
+                <a href="/edit-user/{{user.id}}" class="btn btn-primary rounded">Edit</button>
+                <a href="/delete-user/{{user.id}}" class="btn btn-danger rounded">Delete</button>
+            </td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+</div>
+
+{% endblock %}
