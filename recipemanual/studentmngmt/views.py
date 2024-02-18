@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import CustomUser
 # from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate,login
 
 from django.contrib import messages
 # from recipemanual.settings import AUTH_USER_MODEL
@@ -12,13 +13,27 @@ User = get_user_model()
 
 # Create your views here.
 def welcome(request):
-    return render(request,'login.html')
     
-    # return HttpResponse("<p>Hi Welcome to Student Management!</p>")
+    
+    return HttpResponse("<p>Hi Welcome to Student Management!</p>")
 
 def login_page(request):
     if request.method=='POST':
-        pass
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        # user=User.objects.filter(username=username)
+        if not User.objects.filter(username=username).exists():
+            messages.error(request,'user does not exist')
+            return render(request, 'login.html')
+        user=authenticate(username=username,password=password)
+        if user is None:
+            messages.error(request, 'wrong password')
+            return render(request, 'login.html')
+        else:
+            login(request,user)
+            print(user.id,'user',user)
+            # return render(request, 'register.html')
+            return redirect('/update-user/'+str(user.id))
     else:
         return render(request,'login.html')
 
@@ -29,7 +44,12 @@ def logout_page(request):
 def delete_user(request,id):
     pass
 def update_user(request,id):
-    pass
+    if request.method=="POST":
+        return re
+    print('upadTE USER==>',id)
+    queryset=User.objects.get(id=id)
+    context={'userinfo':queryset}
+    return render(request,'login.html',context)
 def register(request):
     registered_users=User.objects.all()
     context={'registered_users':registered_users}
